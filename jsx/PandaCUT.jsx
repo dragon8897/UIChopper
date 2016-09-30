@@ -3,9 +3,10 @@ var layersStatus = [];
 var inputFolderName;
 
 var ad = app.activeDocument;
+var maskSets = ad.layerSets.getByName("@PandaCUT_MASKS");
 
 function panda_cut(folderPath) {
-    inputFolderName = folderPath
+    inputFolderName = folderPath;
     if (inputFolderName) {
         // var layers = ad.layers;
         
@@ -17,6 +18,10 @@ function panda_cut(folderPath) {
         
         // var countObj = {count:0};
         // resetVisibleStatus(layers, countObj);
+
+        var layers = ad.layers;
+
+        findLayers(layers);
         
         alert("恭喜你，运行完成！！");
     } else {
@@ -124,6 +129,40 @@ function resetVisibleStatus(layers, countObj) {
          layers[i].visible = layersStatus[countObj.count++];
          if (layers[i].typename == "LayerSet") {
             resetVisibleStatus(layers[i].layers, countObj);
+        }
+    }
+}
+
+/**根据蒙版信息裁剪图片**/
+function cutLayer(layer) {
+    var history = ad.activeHistoryState;
+
+    var name = convert_to_pinyin(layer.name.substring(1));
+    var rect = layer.bounds;
+
+    ad.crop(rect, 0);
+    
+    //另存为当前文档
+    var fileOut = new File(inputFolderName + "/" + name);
+    var options = PNGSaveOptions;
+    var asCopy = true;
+    var extensionType = Extension.LOWERCASE;
+    ad.saveAs(fileOut, options, asCopy, extensionType);
+
+
+    ad.activeHistoryState = history;
+}
+
+/**遍历图层切图**/
+function findLayers(layers) {
+    var layersCount = layers.length;
+    for (var i = 0; i < layersCount; ++i) {
+        var name = layers[i].name;
+        if (name[0] == '@') {
+            cutLayer(layers[i]);
+        }
+        if (layers[i].typename == "LayerSet") {
+            findLayers(layers[i].layers);
         }
     }
 }
