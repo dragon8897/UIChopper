@@ -1,43 +1,27 @@
 var maskDatas= [];
 var layersStatus = [];
-var inputFolder;
+var inputFolderName;
 
 var ad = app.activeDocument;
-try {
-    var maskSets = ad.layerSets.getByName("@PandaCUT_MASKS");
-} catch (e) {
-    alert("没有名为'@PandaCUT_MASKS'的蒙版组，无法启动脚本");
-}
 
-if(maskSets)  {
-    ad.suspendHistory("cutPictures", "main()");
-}
-
-function main() {
-    if (setInputFolder()) {
-        var layers = ad.layers;
+function panda_cut(folderPath) {
+    inputFolderName = folderPath
+    if (inputFolderName) {
+        // var layers = ad.layers;
         
-        getMaskDatas();
+        // getMaskDatas();
         
-        saveLayersStatus(layers);
+        // saveLayersStatus(layers);
         
-        cutPictures();
+        // cutPictures();
         
-        var countObj = {count:0};
-        resetVisibleStatus(layers, countObj);
-        
-        createConfigFile();
+        // var countObj = {count:0};
+        // resetVisibleStatus(layers, countObj);
         
         alert("恭喜你，运行完成！！");
     } else {
         alert("没有选择文件夹，脚本退出");
     }
-}
-
-/**选择导入切好图片的文件夹**/
-function setInputFolder() {
-    inputFolder = Folder.selectDialog("选择导入的文件夹：");
-    return inputFolder;
 }
 
 /**获取蒙版的信息**/
@@ -47,7 +31,7 @@ function getMaskDatas() {
     for (var i = 0; i < layersCount; ++i) {
         var o = {};
         o.name = layers[i].name;
-        o.rect = layers[i]. bounds;
+        o.rect = layers[i].bounds;
         maskDatas[i] = o;
     }
 }
@@ -77,7 +61,7 @@ function cutPictures() {
         ad.crop(maskData.rect, 0);              //裁剪
         
         //另存为当前文档
-        var fileOut = new File(inputFolder.fullName + "/" + maskData.name.substring(1));
+        var fileOut = new File(inputFolderName + "/" + maskData.name.substring(1));
         var options = PNGSaveOptions;
         var asCopy = true;
         var extensionType = Extension.LOWERCASE;
@@ -142,51 +126,4 @@ function resetVisibleStatus(layers, countObj) {
             resetVisibleStatus(layers[i].layers, countObj);
         }
     }
-}
-
-/**创建JUCE用的C++代码，JUCE程序员专用**/
-function createConfigFile() {
-     var fileOut = new File(inputFolder.fullName + "/config.txt");
-     fileOut.open("w");
-     var text  = "";
-     for (var i = 0; i < maskDatas.length; ++i) {
-         var data = maskDatas[i];
-         var name = data.name.substring(1);
-         text += name + ' = ImageCache::getFromFile(file.getChildFile("' + name +'.png"));\n';
-         text += 'if (' + name +'.isNull()) throw Expression("Resource file: ' + name + '.png are missing!!!");\n';
-     }
-    text += "\n";
-    fileOut.write(text);
-    
-    text = "";
-     for (var i = 0; i < maskDatas.length; ++i) {
-         var data = maskDatas[i];
-         var name = data.name.substring(1);
-         text += name +' = ImageCache::getFromMemory(BinaryData::' + name +'_png,BinaryData::' + name +'_pngSize);\n';
-     }
-    text += "\n";
-    fileOut.write(text);
-    
-    text = "";
-     for (var i = 0; i < maskDatas.length; ++i) {
-         var data = maskDatas[i];
-         var name = data.name.substring(1);
-         var x  = parseInt(data.rect[0]);
-         var y = parseInt(data.rect[1]);
-         var w = parseInt(data.rect[2]) - parseInt(data.rect[0]);
-         var h = parseInt(data.rect[3]) - parseInt(data.rect[1]);
-         text += name + '.setBounds(' + x + ', ' + y + ', ' + w + ', ' + h + ');\n';
-     }
-    text += "\n";
-    fileOut.write(text);
-    
-    fileOut.close();
-}
-
-function showObj(obj) {
-    var str = "";
-    for (var x in obj) {
-        str += x + ":"  + obj[x] + "\n";
-    }
-    alert(str);
 }

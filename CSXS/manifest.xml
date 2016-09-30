@@ -35,15 +35,15 @@
 
                 <UI>
                     <Type>Panel</Type> <!-- 设置扩展显示为面板模式-->
-                    <Menu>我的扩展</Menu> <!-- 设置扩展标题-->
+                    <Menu>UI战斧</Menu> <!-- 设置扩展标题-->
                     <Geometry>
                         <Size>  <!-- 设置扩展面板尺寸-->
                             <Height>300</Height>
-                            <Width>340</Width>
+                            <Width>300</Width>
                         </Size>             
                         <MaxSize>
-                            <Height>900</Height>
-                            <Width>900</Width>
+                            <Height>300</Height>
+                            <Width>300</Width>
                         </MaxSize>
                         <MinSize>
                             <Height>300</Height>
