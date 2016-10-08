@@ -104,7 +104,7 @@ var Pinyin = {
 
 Pinyin.initialize();
 
-function convert_to_pinyin(text)
+function convertToPinyin(text)
 {
     return Pinyin.getFullChars(text);
 }

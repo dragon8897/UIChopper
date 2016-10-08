@@ -4,6 +4,15 @@ function panda_cut(folderPath) {
     inputFolderName = folderPath;
     if (inputFolderName) {
         var collect = collectLayersAM();
+        
+        userCancelled = false;
+
+        var progressBarWindow = createProgressBar();
+
+        if (progressBarWindow) {
+            showProgressBar(progressBarWindow, "Collecting layers...", collect.length);
+        }
+
         var history = activeDocument.activeHistoryState;
         for (x in collect) {
             var name = collect[x];
@@ -11,9 +20,20 @@ function panda_cut(folderPath) {
             trimAction();
             exportAction(name);
             activeDocument.activeHistoryState = history;
+            selectLayer(name);
+
+            if (progressBarWindow) {
+                updateProgressBar(progressBarWindow, "Exporting " + name);
+                repaintProgressBar(progressBarWindow);
+                if (userCancelled) {
+                    break;
+                }
+            }
         }
 
-        alert("恭喜你，运行完成！！");
+        if (progressBarWindow) {
+			progressBarWindow.hide();
+		}
     } else {
         alert("没有选择文件夹，脚本退出");
     }
@@ -53,7 +73,7 @@ function trimAction() {
 }
 
 function exportAction(name) {
-    var pngName = convert_to_pinyin(name.substring(1)) + '.png';
+    var pngName = convertToPinyin(name.substring(1)) + '.png';
     var idExpr = charIDToTypeID( "Expr" );
         var desc2 = new ActionDescriptor();
         var idUsng = charIDToTypeID( "Usng" );

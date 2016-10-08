@@ -12,9 +12,9 @@
             var extensionRoot = cs.getSystemPath(SystemPath.EXTENSION) + "/jsx/";// 这里是指插件目录下的 jsx 文件夹，可自行设为任意目录
             cs.evalScript('$.evalFile("' + extensionRoot + fileName + '")');
         }
+        loadJSX("ProgressBar.jsx");
         loadJSX("pinyin.jsx");
         loadJSX("PandaCUT.jsx");
-        document.getElementById("dir_path").innerHTML="res";   
       </script>
   </head>
     
