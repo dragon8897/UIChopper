@@ -14,6 +14,7 @@
         }
         loadJSX("pinyin.jsx");
         loadJSX("PandaCUT.jsx");
+        document.getElementById("dir_path").innerHTML="res";   
       </script>
   </head>
     
@@ -25,7 +26,12 @@
     
     <p id="dir_path">设置切图路径</p>
 
+    <script type="text/javascript">
+        get_directory();  
+    </script>
+
     <br>
+    
 
   <input type="button" value="设置目录" onclick="set_directory()">
   <input type="button" value="开始切图" onclick="chop()">

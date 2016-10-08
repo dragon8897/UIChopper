@@ -13,3 +13,12 @@ var set_directory = function () {
     });
 }
 
+var get_directory = function () {
+    cs.evalScript("getImgDir()", function (res) {
+        if (res != 'null')
+        {
+            document.getElementById("dir_path").innerHTML=res;            
+        }
+    });
+}
+
