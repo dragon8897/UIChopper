@@ -10,7 +10,7 @@ function panda_cut(folderPath) {
         var progressBarWindow = createProgressBar();
 
         if (progressBarWindow) {
-            showProgressBar(progressBarWindow, "Collecting layers...", collect.length);
+            showProgressBar(progressBarWindow, "收集图层 ...", collect.length);
         }
 
         var history = activeDocument.activeHistoryState;
@@ -23,7 +23,7 @@ function panda_cut(folderPath) {
             selectLayer(name);
 
             if (progressBarWindow) {
-                updateProgressBar(progressBarWindow, "Exporting " + name);
+                updateProgressBar(progressBarWindow, "导出 " + name);
                 repaintProgressBar(progressBarWindow);
                 if (userCancelled) {
                     break;

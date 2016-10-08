@@ -15,7 +15,7 @@ function createProgressBar()
             preferredSize: [300, 16] \
         }, \
         cancelBtn: Button { \
-            text: "Cancel" \
+            text: "取消" \
         } \
     }, \
     lblMessage: StaticText { \
@@ -26,7 +26,7 @@ function createProgressBar()
         orientation: "column", \
         alignChildren: "fill", \
         message: StaticText { \
-            text: "Dont make changes to the current document while the script is running!", \
+            text: "脚本工作中，请勿做任何操作。", \
             properties: { \
                 multiline: true \
             } \

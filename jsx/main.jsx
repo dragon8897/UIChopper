@@ -22,7 +22,7 @@ function loadSettings () {
 
 function saveSettings () {
 	var settings = new ActionDescriptor();
-	settings.putString(imagesDirID, imagesDir.fsName);
+	settings.putString(imagesDirID, imagesDir);
 	app.putCustomOptions(settingsID, settings, true);
 }
 
@@ -30,14 +30,15 @@ function getImgDir () {
 	return imagesDir;
 }
 
-// loadSettings();
+loadSettings();
 
 var set_directory = function ()
 {
     imagesDir = Folder.selectDialog('选择路径：');
-    // if (imagesDir) 
-    // {
-    //     saveSettings();
-    // }
+    if (imagesDir) 
+    {
+        imagesDir = imagesDir.fsName;
+        saveSettings();
+    }
     return imagesDir;
 }
