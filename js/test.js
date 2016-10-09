@@ -1,6 +1,8 @@
 
 var chop = function () {
     var path = document.getElementById("dir_path").innerHTML;
+    // windows版本路径
+    path = path.replace(/\\/g, "\\\\");
     cs.evalScript("panda_cut('" + path + "')");
 }
 
