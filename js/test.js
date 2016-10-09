@@ -25,9 +25,7 @@ var get_directory = function () {
 }
 
 var translateToPinyin = function (data) {
-
-    alert(convertToPinyin(data));
-    var collect = "";
-    cs.evalScript("cutPictureAM('" + collect + "')");
+    var collect = convertToPinyin(data);
+    cs.evalScript("cutPictureAM('" + data + ',' + collect + "')");
 }
 

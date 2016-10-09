@@ -13,20 +13,24 @@ function panda_cut(folderPath) {
 }
 
 function cutPictureAM(collect) {
+    collect = collect.split(",");
+    var count = collect.length / 2;
+
     userCancelled = false;
 
     var progressBarWindow = createProgressBar();
 
     if (progressBarWindow) {
-        showProgressBar(progressBarWindow, "收集图层 ...", collect.length);
+        showProgressBar(progressBarWindow, "收集图层 ...", count);
     }
 
     var history = activeDocument.activeHistoryState;
-    for (x in collect) {
-        var name = collect[x];
+    for (var i=0,len=count; i<len; i++) {
+        var name = collect[i];
+        var imgName = collect[i + count];
         selectLayer(name);
         trimAction();
-        exportAction(name);
+        exportAction(imgName);
         activeDocument.activeHistoryState = history;
         selectLayer(name);
 
@@ -78,7 +82,7 @@ function trimAction() {
 }
 
 function exportAction(name) {
-    var pngName = convertToPinyin(name.substring(1)) + '.png';
+    var pngName = name.substring(1) + '.png';
     var idExpr = charIDToTypeID( "Expr" );
         var desc2 = new ActionDescriptor();
         var idUsng = charIDToTypeID( "Usng" );
