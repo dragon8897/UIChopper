@@ -5,6 +5,7 @@
   <link href="./css/styles.css" type="text/css" rel="stylesheet">
       <script type="text/javascript" src="./js/test.js"></script>
       <script type="text/javascript" src="./js/CSInterface.js"></script>
+      <script type="text/javascript" src="./js/pinyin.js"></script>
       <script type="text/javascript">
         var cs = new CSInterface();
         function loadJSX(fileName)
@@ -13,7 +14,16 @@
             cs.evalScript('$.evalFile("' + extensionRoot + fileName + '")');
         }
         loadJSX("ProgressBar.jsx");
-        loadJSX("pinyin.jsx");
+        
+
+        cs.addEventListener("com.nullice.event.test2",
+            function (Event)
+            {
+                translateToPinyin(Event.data);
+            }
+        );
+
+        loadJSX("event.jsx");
         loadJSX("PandaCUT.jsx");
       </script>
   </head>

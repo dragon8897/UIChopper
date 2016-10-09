@@ -24,3 +24,10 @@ var get_directory = function () {
     });
 }
 
+var translateToPinyin = function (data) {
+
+    alert(convertToPinyin(data));
+    var collect = "";
+    cs.evalScript("cutPictureAM('" + collect + "')");
+}
+

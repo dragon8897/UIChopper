@@ -4,38 +4,43 @@ function panda_cut(folderPath) {
     inputFolderName = folderPath;
     if (inputFolderName) {
         var collect = collectLayersAM();
-        
-        userCancelled = false;
 
-        var progressBarWindow = createProgressBar();
+        sendEvent("com.nullice.event.test2", collect);
 
-        if (progressBarWindow) {
-            showProgressBar(progressBarWindow, "收集图层 ...", collect.length);
-        }
-
-        var history = activeDocument.activeHistoryState;
-        for (x in collect) {
-            var name = collect[x];
-            selectLayer(name);
-            trimAction();
-            exportAction(name);
-            activeDocument.activeHistoryState = history;
-            selectLayer(name);
-
-            if (progressBarWindow) {
-                updateProgressBar(progressBarWindow, "导出 " + name);
-                repaintProgressBar(progressBarWindow);
-                if (userCancelled) {
-                    break;
-                }
-            }
-        }
-
-        if (progressBarWindow) {
-			progressBarWindow.hide();
-		}
     } else {
         alert("没有选择文件夹，脚本退出");
+    }
+}
+
+function cutPictureAM(collect) {
+    userCancelled = false;
+
+    var progressBarWindow = createProgressBar();
+
+    if (progressBarWindow) {
+        showProgressBar(progressBarWindow, "收集图层 ...", collect.length);
+    }
+
+    var history = activeDocument.activeHistoryState;
+    for (x in collect) {
+        var name = collect[x];
+        selectLayer(name);
+        trimAction();
+        exportAction(name);
+        activeDocument.activeHistoryState = history;
+        selectLayer(name);
+
+        if (progressBarWindow) {
+            updateProgressBar(progressBarWindow, "导出 " + name);
+            repaintProgressBar(progressBarWindow);
+            if (userCancelled) {
+                break;
+            }
+        }
+    }
+
+    if (progressBarWindow) {
+        progressBarWindow.hide();
     }
 }
 
