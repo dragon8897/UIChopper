@@ -5,7 +5,8 @@ function panda_cut(folderPath) {
     if (inputFolderName) {
         var collect = collectLayersAM();
 
-        sendEvent("com.nullice.event.test2", collect);
+        var psdName = activeDocument.name.split('.')[0];
+        sendEvent("com.nullice.event.test2", psdName + ',' + collect);
 
     } else {
         alert("没有选择文件夹，脚本退出");
@@ -15,19 +16,20 @@ function panda_cut(folderPath) {
 function cutPictureAM(collect) {
     collect = collect.split(",");
     var count = collect.length / 2;
+    var psdName = collect[count];
 
     userCancelled = false;
 
     var progressBarWindow = createProgressBar();
 
     if (progressBarWindow) {
-        showProgressBar(progressBarWindow, "收集图层 ...", count);
+        showProgressBar(progressBarWindow, "收集图层 ...", count - 1);
     }
 
     var history = activeDocument.activeHistoryState;
-    for (var i=0,len=count; i<len; i++) {
+    for (var i=1,len=count; i<len; i++) {
         var name = collect[i];
-        var imgName = collect[i + count];
+        var imgName = psdName + '_' + collect[i + count].substring(1);
         selectLayer(name);
         trimAction();
         exportAction(imgName);
@@ -82,7 +84,7 @@ function trimAction() {
 }
 
 function exportAction(name) {
-    var pngName = name.substring(1) + '.png';
+    var pngName = name + '.png';
     var idExpr = charIDToTypeID( "Expr" );
         var desc2 = new ActionDescriptor();
         var idUsng = charIDToTypeID( "Usng" );

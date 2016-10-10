@@ -519,7 +519,8 @@ FFMMYCQZWZZMABTBYZTDMNZZGGDFTYPCGQYTTSSFFWFDTZQSSYSTWXJHXYTSXXYLBYQHWWKXHZXWZNNZ
     _getFullChar: function(str){
         for (var key in this.full_dict){
             if (this.full_dict[key].indexOf(str)!=-1) {
-                return this._capitalize(key);
+                // return this._capitalize(key);
+                return key;
             }
         }
         return false;
