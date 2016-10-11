@@ -30,9 +30,18 @@ function cutPictureAM(collect) {
     for (var i=1,len=count; i<len; i++) {
         var name = collect[i];
         var imgName = psdName + '_' + collect[i + count].substring(1);
+        // selectLayer(name);
+        // trimAction();
+        // exportAction(imgName);
+        // activeDocument.activeHistoryState = history;
+        // selectLayer(name);
+        
         selectLayer(name);
+        clickLayer(name);
+        newDocument(name);
         trimAction();
         exportAction(imgName);
+        closeDocument();
         activeDocument.activeHistoryState = history;
         selectLayer(name);
 
@@ -43,6 +52,7 @@ function cutPictureAM(collect) {
                 break;
             }
         }
+
     }
 
     if (progressBarWindow) {
@@ -315,6 +325,59 @@ function exportAction(name) {
         var idSaveForWeb = stringIDToTypeID( "SaveForWeb" );
         desc2.putObject( idUsng, idSaveForWeb, desc3 );
     executeAction( idExpr, desc2, DialogModes.NO );
+}
+
+function clickLayer(name) {
+    var idslct = charIDToTypeID( "slct" );
+        var desc34 = new ActionDescriptor();
+        var idnull = charIDToTypeID( "null" );
+            var ref20 = new ActionReference();
+            var idLyr = charIDToTypeID( "Lyr " );
+            ref20.putName( idLyr, name );
+        desc34.putReference( idnull, ref20 );
+        var idMkVs = charIDToTypeID( "MkVs" );
+        desc34.putBoolean( idMkVs, false );
+        var idLyrI = charIDToTypeID( "LyrI" );
+            var list14 = new ActionList();
+            list14.putInteger( 46959 );
+        desc34.putList( idLyrI, list14 );
+    executeAction( idslct, desc34, DialogModes.NO );
+}
+
+function newDocument(docName) {
+    var idMk = charIDToTypeID( "Mk  " );
+        var desc37 = new ActionDescriptor();
+        var idnull = charIDToTypeID( "null" );
+            var ref21 = new ActionReference();
+            var idDcmn = charIDToTypeID( "Dcmn" );
+            ref21.putClass( idDcmn );
+        desc37.putReference( idnull, ref21 );
+        var idNm = charIDToTypeID( "Nm  " );
+        desc37.putString( idNm, ""+docName+"" );
+        var idUsng = charIDToTypeID( "Usng" );
+            var ref22 = new ActionReference();
+            var idLyr = charIDToTypeID( "Lyr " );
+            var idOrdn = charIDToTypeID( "Ordn" );
+            var idTrgt = charIDToTypeID( "Trgt" );
+            ref22.putEnumerated( idLyr, idOrdn, idTrgt );
+        desc37.putReference( idUsng, ref22 );
+        var idVrsn = charIDToTypeID( "Vrsn" );
+        desc37.putInteger( idVrsn, 5 );
+    executeAction( idMk, desc37, DialogModes.NO );
+}
+
+function closeDocument() {
+    var idCls = charIDToTypeID( "Cls " );
+        var desc54 = new ActionDescriptor();
+        var idSvng = charIDToTypeID( "Svng" );
+        var idYsN = charIDToTypeID( "YsN " );
+        var idN = charIDToTypeID( "N   " );
+        desc54.putEnumerated( idSvng, idYsN, idN );
+        var idDocI = charIDToTypeID( "DocI" );
+        desc54.putInteger( idDocI, 2383 );
+        var idforceNotify = stringIDToTypeID( "forceNotify" );
+        desc54.putBoolean( idforceNotify, true );
+    executeAction( idCls, desc54, DialogModes.NO );
 }
 
 //
